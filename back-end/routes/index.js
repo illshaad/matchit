@@ -15,12 +15,6 @@ router.get("/first", function(req, res, next) {
   });
 });
 
-router.get("/save", function(req, res, next) {
-  dataModel.find(function(error, data) {
-    res.json({ result: true, data });
-  });
-});
-
 // Route POSTE  //
 router.post("/save", function(req, res, next) {
   console.log("test", req.body.data);
