@@ -1,7 +1,5 @@
 const mongoose = require('mongoose');
 
-
-// Here, we just need to define a movie schema
 const dataSchema = mongoose.Schema({
     cpuUsage: Number,
     memory: Number,
@@ -10,7 +8,7 @@ const dataSchema = mongoose.Schema({
     currentHeight : Number
   });
 
-// And then, we need to create a model which will create a new 'datas' collection in mlab base on the data schema
+// Création dataSchema //
 const dataModel = mongoose.model('datas', dataSchema);
 
 // dataModel.create({
