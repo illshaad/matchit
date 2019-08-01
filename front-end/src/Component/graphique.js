@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Line, Bar } from "react-chartjs-2";
+import { Line } from "react-chartjs-2";
 import axios from "axios";
 
 
@@ -7,63 +7,58 @@ class Graphique extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      dataFetch: [], //ma donnée stocké dans mon state //
-      dataForGraphTime: [],
+      dataFetch: [], //Toute la donnée prevenant d'api stocké //
+      dataForGraphTime: [], // Ma donnée formattedTime stocké//
       dataForGraphCpu: [],
       dataForGraphMemory: [],
       dataForGraphNetIn : [],
       dataForGraphNetOut : [],
       dataForGraphHeight : [],
-      counter : 0,
     };
   }
 
-  // meilleur lisibilité le ComponentDidMount déclanche les deux setInterval au rendu du composant et fait donc un appel au deux fonction qui requet à l'api//
-  componentDidMount = () => {
-    setInterval(this.fetchdata, 5000);
-    setInterval(this.saveData, 5000);
+  // Le ComponentDidMount déclanche les deux setInterval au rendu du composant et fait donc un appel au deux fonctions qui requet sur l'api//
+componentDidMount = () => {
+    setInterval(this.fetchdata, 30000);
+    setInterval(this.saveData, 30000);
   };
 
-  fetchdata = () => {
-    var date = new Date();
-    // Hours part from the timestamp
-    var hours = date.getHours();
-    // Minutes part from the timestamp
-    var minutes = "0" + date.getMinutes();
-    // Seconds part from the timestamp
-    var seconds = "0" + date.getSeconds();
+fetchdata = () => { 
+    //Création du TimeTemp//
+        const date = new Date();
+        const hours = date.getHours();
+        const minutes = "0" + date.getMinutes();
+        const seconds = "0" + date.getSeconds();
+        const formattedTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+        console.log(formattedTime)
     
-    // Will display time in 10:30:23 format
-    var formattedTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
-
-    console.log(formattedTime)
-
+// Fetch sur mon Back pour recevoir toute la donnée prevenant de l'api sur le Front et mise à jour du state//
     axios
       .get("http://localhost:3000/first")
       .then(response => {
         this.setState({
-          dataFetch: response,
-          dataForGraphTime: [
+          dataFetch: response, //Mise à jjour du state //
+          dataForGraphTime: [ // Mise à jour du state //
             ...this.state.dataForGraphTime,
             formattedTime
           ],
-          dataForGraphCpu: [
+          dataForGraphCpu: [ // Mise à jour du state //
             ...this.state.dataForGraphCpu,
             response.data.bot.cpuUsage
           ],
-          dataForGraphMemory : [
+          dataForGraphMemory : [ // Mise à jour du state //
               ...this.state.dataForGraphMemory,
               response.data.bot.memory
           ],
-          dataForGraphNetIn : [
+          dataForGraphNetIn : [ // Mise à jour du state //
               ...this.state.dataForGraphNetIn,
               response.data.bot.netIn
           ],
-          dataForGraphNetOut : [
+          dataForGraphNetOut : [ // Mise à jour du state //
             ...this.state.dataForGraphNetIn,
             response.data.bot.netOut
         ],
-          dataForGraphHeight : [
+          dataForGraphHeight : [ // Mise à jour du state //
             ...this.state.dataForGraphNetIn,
             response.data.blockchain.currentHeight
         ]
@@ -72,16 +67,17 @@ class Graphique extends Component {
       })
       .catch(error => console.log(error));
   };
-
-  saveData = () => {
-    axios
-      .post("http://localhost:3000/save", this.state.dataFetch)
-      .then(response => {
-        console.log(this.state.dataFetch);
-      })
-      .catch(error => console.log(error));
-  };
+// Une fois la donnée selectionné que je stock dans mon state je fetch sur mon back pour sauvegarder dans Mlab//
+saveData = () => {
+        axios
+        .post("http://localhost:3000/save", this.state.dataFetch)
+        .then(response => {
+            console.log(this.state.dataFetch);
+        })
+        .catch(error => console.log(error));
+    };
 render() {
+    //Tracement du graphique //
     const chartData = {
       datasets: [
         {
