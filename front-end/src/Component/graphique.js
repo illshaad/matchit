@@ -14,6 +14,7 @@ class Graphique extends Component {
       dataForGraphNetIn : [],
       dataForGraphNetOut : [],
       dataForGraphHeight : [],
+      count : 30 , 
     };
   }
 
@@ -21,7 +22,15 @@ class Graphique extends Component {
 componentDidMount = () => {
     setInterval(this.fetchdata, 30000);
     setInterval(this.saveData, 30000);
+    setInterval(this.countDown , 1000);
   };
+
+  countDown = () => {
+    this.setState({
+        count : this.state.count -1
+    })
+}
+
 
 fetchdata = () => { 
     //Création du TimeTemp//
@@ -31,13 +40,14 @@ fetchdata = () => {
         const seconds = "0" + date.getSeconds();
         const formattedTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
         console.log(formattedTime)
-    
+
 // Fetch sur mon Back pour recevoir toute la donnée prevenant de l'api sur le Front et mise à jour du state//
     axios
       .get("http://localhost:3000/first")
       .then(response => {
         this.setState({
           dataFetch: response, //Mise à jjour du state //
+
           dataForGraphTime: [ // Mise à jour du state //
             ...this.state.dataForGraphTime,
             formattedTime
@@ -61,7 +71,7 @@ fetchdata = () => {
           dataForGraphHeight : [ // Mise à jour du state //
             ...this.state.dataForGraphNetIn,
             response.data.blockchain.currentHeight
-        ]
+        ],
         });
         console.log(response.data);
       })
@@ -76,7 +86,14 @@ saveData = () => {
         })
         .catch(error => console.log(error));
     };
+
+  
+   
+   
+
 render() {
+
+    
     //Tracement du graphique //
     const chartData = {
       datasets: [
@@ -97,7 +114,6 @@ render() {
             borderWidth: 2,
             backgroundColor: [
             "rgba(255, 255, 255, 0.1)"
-             
             ],
             borderColor: [
             "rgba(67, 189, 10, 1)",
@@ -142,6 +158,7 @@ render() {
     };
     return (
       <div className="chart">
+          <h1>J'actualise mon graphique tous les {this.state.count} secondes </h1>
         <Line data={chartData} />
       </div>
     );
