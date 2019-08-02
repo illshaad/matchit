@@ -14,22 +14,14 @@ class Graphique extends Component {
       dataForGraphNetIn : [],
       dataForGraphNetOut : [],
       dataForGraphHeight : [],
-      count : 30 , 
     };
   }
 
   // Le ComponentDidMount déclanche les deux setInterval au rendu du composant et fait donc un appel au deux fonctions qui requet sur l'api//
 componentDidMount = () => {
-    setInterval(this.fetchdata, 30000);
-    setInterval(this.saveData, 30000);
-    setInterval(this.countDown , 1000);
+    setInterval(this.fetchdata, 5000);
+    setInterval(this.saveData, 5000);
   };
-
-  countDown = () => {
-    this.setState({
-        count : this.state.count -1
-    })
-}
 
 
 fetchdata = () => { 
@@ -41,6 +33,7 @@ fetchdata = () => {
         const formattedTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
         console.log(formattedTime)
 
+  
 // Fetch sur mon Back pour recevoir toute la donnée prevenant de l'api sur le Front et mise à jour du state//
     axios
       .get("http://localhost:3000/first")
@@ -86,14 +79,7 @@ saveData = () => {
         })
         .catch(error => console.log(error));
     };
-
-  
-   
-   
-
 render() {
-
-    
     //Tracement du graphique //
     const chartData = {
       datasets: [
@@ -158,7 +144,6 @@ render() {
     };
     return (
       <div className="chart">
-          <h1>J'actualise mon graphique tous les {this.state.count} secondes </h1>
         <Line data={chartData} />
       </div>
     );
