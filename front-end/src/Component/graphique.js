@@ -19,8 +19,8 @@ class Graphique extends Component {
 
   // Le ComponentDidMount déclanche les deux setInterval au rendu du composant et fait donc un appel au deux fonctions qui requet sur l'api//
 componentDidMount = () => {
-    setInterval(this.fetchdata, 5000);
-    setInterval(this.saveData, 5000);
+    setInterval(this.fetchdata, 30000);
+    setInterval(this.saveData, 30000);
   };
 
 

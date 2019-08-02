@@ -7,7 +7,7 @@ function App() {
   return (
     <div className="App">
      <br/>
-     <Countdown/>
+     <Countdown Countdown="5"/>
      <Graphique/>
     </div>
   );
