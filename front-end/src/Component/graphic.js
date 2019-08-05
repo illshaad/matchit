@@ -3,7 +3,7 @@ import { Line } from "react-chartjs-2";
 import axios from "axios";
 
 
-class Graphique extends Component {
+class Graphic extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -60,11 +60,11 @@ fetchdata = () => {
           dataForGraphNetOut : [ // Mise à jour du state //
             ...this.state.dataForGraphNetIn,
             response.data.bot.netOut
-        ],
+          ],
           dataForGraphHeight : [ // Mise à jour du state //
             ...this.state.dataForGraphNetIn,
             response.data.blockchain.currentHeight
-        ],
+          ],
         });
         console.log(response.data);
       })
@@ -80,7 +80,7 @@ saveData = () => {
         .catch(error => console.log(error));
     };
 render() {
-    //Tracement du graphique //
+    //Tracement du Graphic //
     const chartData = {
       datasets: [
         {
@@ -114,7 +114,6 @@ render() {
             ],
             borderColor: [
             "rgba(367, 189, 10, 1)",
-
             ]
           },
           {
@@ -139,6 +138,17 @@ render() {
             "rgba(227, 389, 10, 1)",
             ]
           },
+          {
+            label: "Faux donée pour un test", //Exemple fictif rendu graphique donnée mise en dure//
+            data:[1000 , 1500 , 3000 , 1800 , 1490 , 20000,1500 ],
+            borderWidth: 2,
+            backgroundColor: [
+            "rgba(255, 255, 255, 0.1)"
+            ],
+            borderColor: [
+              "rgba(52, 60, 213, 1)",
+            ]
+          },
       ],
       labels: this.state.dataForGraphTime //XTime//
     };
@@ -150,4 +160,4 @@ render() {
   }
 }
 
-export default Graphique;
+export default Graphic;

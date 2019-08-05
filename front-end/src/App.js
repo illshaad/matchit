@@ -1,5 +1,5 @@
 import React from 'react';
-import Graphique from './Component/graphique'
+import Graphic from './Component/graphic'
 import Countdown from './Component/countDown'
 import './App.css';
 
@@ -8,7 +8,7 @@ function App() {
     <div className="App">
      <br/>
      <Countdown Countdown="5"/>
-     <Graphique/>
+     <Graphic/>
     </div>
   );
 }

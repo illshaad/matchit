@@ -5,6 +5,7 @@ const dataModel = require("../models/data");
 const api_url = "http://15.188.3.166:8080/status";
 
 //RECUPERATION DONNEE VERS API //
+
 router.get("/first", function(req, res, next) {
   request(api_url, function(err, response, body) {
     body = JSON.parse(body);
@@ -12,6 +13,7 @@ router.get("/first", function(req, res, next) {
     res.json(body);
   });
 });
+
 
 // ROUTE POSTE TRAITEMENT SAUVEGARDER LA DONNEE //
 router.post("/save", function(req, res, next) {
